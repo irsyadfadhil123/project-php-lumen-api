@@ -34,7 +34,7 @@ $app = new Laravel\Lumen\Application(
 |
 | Now we will register a few bindings in the service container. We will
 | register the exception handler and the console kernel. You may add
-| your own bindings here if you like or you can make another file.
+| your own bindings here if you like, or you can make another file.
 |
 */
 
@@ -54,8 +54,8 @@ $app->singleton(
 |--------------------------------------------------------------------------
 |
 | Now we will register the "app" configuration file. If the file exists in
-| your configuration directory it will be loaded; otherwise, we'll load
-| the default version. You may register other files below as needed.
+| your configuration directory, it will be loaded; otherwise, we'll load
+| the default version. You may register the other files below as needed.
 |
 */
 
@@ -67,7 +67,7 @@ $app->configure('app');
 |--------------------------------------------------------------------------
 |
 | Next, we will register the middleware with the application. These can
-| be global middleware that run before and after each request into a
+| be global middleware that runs before and after each request into a
 | route or middleware that'll be assigned to some specific routes.
 |
 */
@@ -85,12 +85,15 @@ $app->configure('app');
 | Register Service Providers
 |--------------------------------------------------------------------------
 |
-| Here we will register all of the application's service providers which
+| Here we will register all the application's service providers which
 | are used to bind services into the container. Service providers are
 | totally optional, so you are not required to uncomment this line.
 |
 */
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
+$app->alias('JWTAuth', Tymon\JWTAuth\Facades\JWTAuth::class);
+$app->alias('JWTFactory', Tymon\JWTAuth\Facades\JWTFactory::class);
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
@@ -100,8 +103,8 @@ $app->configure('app');
 | Load The Application Routes
 |--------------------------------------------------------------------------
 |
-| Next we will include the routes file so that they can all be added to
-| the application. This will provide all of the URLs the application
+| Next we will include the route file so that they can all be added to
+| the application. This will provide all the URLs the application
 | can respond to, as well as the controllers that may handle them.
 |
 */

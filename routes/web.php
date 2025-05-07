@@ -22,3 +22,8 @@ $router->get('/product/{id}', 'ProductController@show');
 $router->post('/product', 'ProductController@create');
 $router->put('/product/{id}', 'ProductController@update');
 $router->delete('/product/{id}', 'ProductController@delete');
+
+$router->post('auth/login', 'AuthController@login');
+$router->post('auth/logout', 'AuthController@logout');
+$router->post('auth/refresh', 'AuthController@refresh');
+$router->post('auth/info', 'AuthController@user_info');
