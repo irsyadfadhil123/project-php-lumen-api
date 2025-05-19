@@ -3,41 +3,29 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 class CorsMiddleware
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
-        // Daftar origin yang diizinkan
-        $allowedOrigins = [
-            'https://fadhil.com',
-            'http://localhost:3000', // kalau kamu lagi develop di lokal
+        $headers = [
+            'Access-Control-Allow-Origin'      => env('CORS_ORIGIN', '*'),
+            'Access-Control-Allow-Methods'     => env('CORS_METHODS', 'POST, GET, OPTIONS, PUT, DELETE'),
+            'Access-Control-Allow-Credentials' => env('CORS_CREDENTIALS', 'true'),
+            'Access-Control-Max-Age'           => env('CORS_MAX_AGE', 60 * 60 * 24),
+            'Access-Control-Allow-Headers'     => env('CORS_HEADERS', 'Content-Type, Authorization, X-Requested-With'),
         ];
 
-        // Ambil origin dari request
-        $origin = $request->headers->get('Origin');
-
-        // Cek apakah origin diizinkan
-        if (in_array($origin, $allowedOrigins)) {
-            $allowOrigin = $origin;
-        } else {
-            $allowOrigin = null;
+        if ($request->isMethod('OPTIONS'))
+        {
+            return response()->json('{"method":"OPTIONS"}', 200, $headers);
         }
 
-        // Tangani preflight (OPTIONS)
-        if ($request->getMethod() === "OPTIONS") {
-            return response('', 200)
-                ->header('Access-Control-Allow-Origin', $allowOrigin)
-                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        }
-
-        // Response biasa
         $response = $next($request);
-        if ($allowOrigin) {
-            $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        foreach($headers as $key => $value)
+        {
+            $response->header($key, $value);
         }
 
         return $response;
