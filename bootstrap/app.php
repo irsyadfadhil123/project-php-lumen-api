@@ -92,7 +92,7 @@ $app->configure('app');
 |
 */
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
+//$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 $app->alias('JWTAuth', Tymon\JWTAuth\Facades\JWTAuth::class);
 $app->alias('JWTFactory', Tymon\JWTAuth\Facades\JWTFactory::class);
