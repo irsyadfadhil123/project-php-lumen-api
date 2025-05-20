@@ -27,3 +27,19 @@ $router->post('auth/login', 'AuthController@login');
 $router->post('auth/logout', 'AuthController@logout');
 $router->post('auth/refresh', 'AuthController@refresh');
 $router->post('auth/info', 'AuthController@user_info');
+
+$router->get('/test', function () {
+    return 'GET route';
+});
+
+$router->post('/test', function () {
+    return 'POST route';
+});
+
+$router->put('/test', function () {
+    return 'PUT route';
+});
+
+$router->delete('/test', function () {
+    return 'DELETE route';
+});
